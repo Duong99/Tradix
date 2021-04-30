@@ -4,71 +4,82 @@ import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.View.*
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.core.view.marginStart
-import androidx.viewpager.widget.ViewPager
+import androidx.core.view.isVisible
 import vn.com.nghiemduong.tradix.R
-import vn.com.nghiemduong.tradix.adapter.IntroViewPagerAdapter
 import vn.com.nghiemduong.tradix.databinding.ActivityOnboardingBinding
+import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding1Fragment
+import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding2Fragment
+import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding3Fragment
+import vn.com.nghiemduong.tradix.utils.getShipTutorialPref
+import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragment
+
+import vn.com.nghiemduong.tradix.utils.updateShipTutorialPref
+import kotlin.system.exitProcess
+import android.view.View.GONE as GONE
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
 
-    private lateinit var mLayoutIdIntros: Array<Int>
-    private lateinit var mIntroAdapter: IntroViewPagerAdapter
     private var mPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+        if (getShipTutorialPref(applicationContext)) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
-        addListLayoutIntro()
+        setContentView(binding.root)
 
         addDots()
 
-        setUpViewPagerWithLayoutIntro()
+        replaceAddToBackStackFragment(
+            supportFragmentManager, Onboarding1Fragment(),
+            binding.frameOnboarding.id, "Onboarding1Fragment"
+        )
+
+        binding.ivBackArrow.visibility = GONE
 
         binding.tvActionNextStart.setOnClickListener {
-            if (mPosition == 0) {
-                mPosition++
-                binding.vpIntro.currentItem = mPosition
-            } else if (mPosition == 1) {
-                mPosition++
-                binding.vpIntro.currentItem = mPosition
-                binding.tvActionNextStart.text = "START"
-            } else {
-                startActivity(Intent(this, LoginActivity::class.java))
+            when (mPosition) {
+                0 -> {
+                    mPosition = 1
+                    replaceAddToBackStackFragment(
+                        supportFragmentManager, Onboarding2Fragment(),
+                        binding.frameOnboarding.id, "Onboarding2Fragment"
+                    )
+                    replaceDots()
+                    binding.ivBackArrow.visibility = VISIBLE
+                }
+                1 -> {
+                    mPosition = 2
+                    replaceAddToBackStackFragment(
+                        supportFragmentManager, Onboarding3Fragment(),
+                        binding.frameOnboarding.id, "Onboarding3Fragment"
+                    )
+                    binding.tvActionNextStart.text = "START"
+                    replaceDots()
+                    binding.ivBackArrow.visibility = VISIBLE
+                }
+                else -> {
+                    updateShipTutorialPref(applicationContext, true)
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
             }
         }
 
-        binding.vpIntro.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
+        binding.tvSkip.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
-            }
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-                mPosition = position
-                if (mPosition == 2) {
-                    binding.tvActionNextStart.text = "START"
-                } else {
-                    binding.tvActionNextStart.text = "NEXT"
-                }
-                replaceDots()
-            }
-
-        })
+        binding.ivBackArrow.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -105,17 +116,34 @@ class OnboardingActivity : AppCompatActivity() {
                     resources.getDrawable(R.drawable.bg_dot_unselect)
             }
         }
-
     }
 
-    private fun setUpViewPagerWithLayoutIntro() {
-        mIntroAdapter = IntroViewPagerAdapter(mLayoutIdIntros)
-        binding.vpIntro.adapter = mIntroAdapter
-    }
-
-    private fun addListLayoutIntro() {
-        mLayoutIdIntros =
-            arrayOf(R.layout.layout_intro_1, R.layout.layout_intro_2, R.layout.layout_intro_3)
-
+    override fun onBackPressed() {
+        val indexFragment = supportFragmentManager.backStackEntryCount
+        if (indexFragment == 1) {
+            exitProcess(0)
+        } else {
+            if (indexFragment == 2) {
+                binding.ivBackArrow.visibility = GONE
+            }
+            when (supportFragmentManager.getBackStackEntryAt(indexFragment - 2).name) {
+                "Onboarding1Fragment" -> {
+                    binding.tvActionNextStart.text = "NEXT"
+                    mPosition = 0
+                    replaceDots()
+                }
+                "Onboarding2Fragment" -> {
+                    binding.tvActionNextStart.text = "NEXT"
+                    mPosition = 1
+                    replaceDots()
+                }
+                else -> {
+                    binding.tvActionNextStart.text = "START"
+                    mPosition = 2
+                    replaceDots()
+                }
+            }
+            super.onBackPressed()
+        }
     }
 }

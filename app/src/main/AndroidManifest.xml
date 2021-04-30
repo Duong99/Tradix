@@ -9,8 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tradix">
-        <activity android:name=".ui.LoginActivity"></activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.PasswordChangedActivity" />
+        <activity android:name=".ui.ResendEmailActivity" />
+        <activity
+            android:name=".ui.SignUpActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity android:name=".ui.MainActivity" />
         <activity
             android:name=".ui.OnboardingActivity"
             android:theme="@style/Theme.Intro">
@@ -21,5 +28,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

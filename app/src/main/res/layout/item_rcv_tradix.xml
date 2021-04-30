@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="tradix"
+            type="vn.com.nghiemduong.tradix.model.Tradix" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="27dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_black"
+            android:padding="5dp"
+            android:text='@{tradix.title , default = "DOWN JONES"}'
+            android:textAllCaps="true"
+            android:textColor="#676767"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
+            android:paddingStart="5dp"
+            android:text="@{tradix.address, default = `NYSE`}"
+            android:textAllCaps="true"
+            android:textColor="#4d4d4d"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/lato"
+            android:text="@{tradix.time, default = `10:44:45`}"
+            android:textColor="#676767"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toEndOf="@id/tvAddress"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:background="@drawable/bg_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/raleway_medium"
+            android:paddingStart="11dp"
+            android:text="@{tradix.number, default = `20.047,50`}"
+            android:textColor="#020202"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="14dp"
+            android:fontFamily="@font/lato"
+            android:text="@{tradix.percent, default = `+203 (+1,04%)`}"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginTop="20dp"
+            android:background="#99707070"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPercent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

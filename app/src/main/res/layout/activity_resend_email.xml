@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ResendEmailActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="87dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@drawable/component_7_3"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTradix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="126dp"
+                android:fontFamily="@font/raleway_black"
+                android:text="TRADIX"
+                android:textColor="#2b2828"
+                android:textSize="40sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/ic_coin"
+                app:layout_constraintStart_toEndOf="@id/tvTradix"
+                app:layout_constraintTop_toTopOf="@id/tvTradix" />
+
+            <TextView
+                android:id="@+id/tvFuture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_light"
+                android:gravity="center"
+                android:text="The future of trading"
+                android:textColor="#171717"
+                android:textSize="22sp"
+                app:layout_constraintTop_toBottomOf="@id/tvTradix" />
+
+            <ImageView
+                android:id="@+id/ivNewsLetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pixeltrue_newsletter"
+                app:layout_constraintTop_toBottomOf="@id/tvFuture" />
+
+            <TextView
+                android:id="@+id/tvWeHave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/raleway_black"
+                android:gravity="center"
+                android:text="We have sent you an\nemail to change your\npassowrd"
+                android:textColor="#656565"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivNewsLetter" />
+
+            <TextView
+                android:id="@+id/tvResendEmail"
+                style="@style/TextLato14"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="62dp"
+                android:layout_marginTop="55dp"
+                android:layout_marginEnd="62dp"
+                android:background="@drawable/bg_button_violet"
+                android:gravity="center"
+                android:text="RESEND EMAIL"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvWeHave" />
+
+            <TextView
+                android:id="@+id/tvCountDownResendEmail"
+                style="@style/TextLatoLight14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Wait 30 seconds before sending it"
+                android:textColor="#3e3e3e"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvResendEmail" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
