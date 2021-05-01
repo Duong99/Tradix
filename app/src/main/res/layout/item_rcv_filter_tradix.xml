@@ -6,7 +6,7 @@
 
         <variable
             name="filterTradix"
-            type="vn.com.nghiemduong.tradix.model.FilterTradix" />
+            type="vn.com.nghiemduong.tradix.model.FilterTitle" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="news"
+            type="vn.com.nghiemduong.tradix.model.News" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+
+        android:layout_marginTop="21dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:imageUrl="@{news.image}"
+            android:id="@+id/ivPhone"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="11dp"
+            android:fontFamily="@font/raleway_medium"
+            android:text="@{news.discount, default = `ALT -3,87%`}"
+            android:textColor="#f00909"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ivPhone"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12.5dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato_light"
+            android:text="@{news.date, default = `12 Sept 2020`}"
+            android:textColor="#080808"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/tvContent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/raleway_black"
+            android:text="@{news.name, default = `ATLANTIA`}"
+            android:textColor="#2e2e2e"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toEndOf="@id/ivPhone"
+            app:layout_constraintTop_toBottomOf="@id/tvDiscount" />
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/lato_light"
+            android:text="@{news.content, default = `Illum velit nam voluptatum enim aut`}"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPhone"
+            app:layout_constraintTop_toBottomOf="@id/tvPhone" />
+
+        <ImageView
+            android:layout_width="27dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/gruppo_di_maschere_1_clipped"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

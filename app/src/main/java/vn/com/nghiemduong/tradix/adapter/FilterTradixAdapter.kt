@@ -2,7 +2,6 @@ package vn.com.nghiemduong.tradix.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.databinding.ItemRcvFilterTradixBinding
-import vn.com.nghiemduong.tradix.model.FilterTradix
+import vn.com.nghiemduong.tradix.model.FilterTitle
 
-class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTradix>) :
+class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTitle>) :
     RecyclerView.Adapter<FilterTradixAdapter.ViewHolder>() {
 
     private lateinit var mContext: Context
@@ -20,7 +19,7 @@ class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTradix>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRcvFilterTradixBinding.bind(view)
 
-        fun onBind(filterTradix: FilterTradix) {
+        fun onBind(filterTradix: FilterTitle) {
             binding.filterTradix = filterTradix
         }
     }
@@ -41,15 +40,33 @@ class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTradix>) :
         filterTradix?.let {
             holder.onBind(filterTradix)
 
-            holder.binding.tvTitleFilter.setOnClickListener {
+            if (filterTradix.isCheck) {
                 holder.binding.tvTitleFilter.background =
                     mContext.getDrawable(R.drawable.bg_item_filter_tradix_selected)
 
-                holder.binding.tvTitleFilter.setTextColor(
-                    mContext.resources.getColor(
-                        R.color.white
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.binding.tvTitleFilter.setTextColor(
+                        mContext.resources.getColor(
+                            R.color.white, mContext.resources.newTheme()
+                        )
                     )
-                )
+                }
+            } else {
+                holder.binding.tvTitleFilter.background = null
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.binding.tvTitleFilter.setTextColor(
+                        mContext.resources.getColor(
+                            R.color.black_filter, mContext.resources.newTheme()
+                        )
+                    )
+                }
+            }
+
+
+            holder.binding.tvTitleFilter.setOnClickListener {
+                filterTradix.isCheck = !filterTradix.isCheck
+                notifyDataSetChanged()
             }
         }
     }

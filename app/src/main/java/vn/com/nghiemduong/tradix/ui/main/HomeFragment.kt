@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.adapter.FilterTradixAdapter
 import vn.com.nghiemduong.tradix.adapter.TradixAdapter
 import vn.com.nghiemduong.tradix.databinding.FragmentHomeBinding
-import vn.com.nghiemduong.tradix.model.FilterTradix
+import vn.com.nghiemduong.tradix.model.FilterTitle
 import vn.com.nghiemduong.tradix.model.Tradix
 
 class HomeFragment : Fragment() {
@@ -18,7 +17,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mListfilterTraxdixs: MutableList<FilterTradix>
+    private lateinit var mListfilterTraxdixs: MutableList<FilterTitle>
     private lateinit var mFilterTradixAdapter: FilterTradixAdapter
     private lateinit var mTradixAdapter: TradixAdapter
     private lateinit var mListTradixs: MutableList<Tradix>
@@ -167,12 +166,12 @@ class HomeFragment : Fragment() {
 
     private fun addListFilterTradixs() {
         mListfilterTraxdixs = mutableListOf(
-            FilterTradix("INDEX"),
-            FilterTradix("SHARES"),
-            FilterTradix("CURRENCIES"),
-            FilterTradix("FUTURES"),
-            FilterTradix("cry"),
-            FilterTradix("INDEX")
+            FilterTitle("INDEX"),
+            FilterTitle("SHARES"),
+            FilterTitle("CURRENCIES"),
+            FilterTitle("FUTURES"),
+            FilterTitle("cry"),
+            FilterTitle("INDEX")
         )
     }
 

@@ -2,6 +2,8 @@ package vn.com.nghiemduong.tradix.utils
 
 import android.app.Activity
 import android.content.Context
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import kotlin.coroutines.CoroutineContext
 
 const val REQUEST_CODE_SING_UP = 123

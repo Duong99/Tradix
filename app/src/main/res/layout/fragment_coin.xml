@@ -243,6 +243,86 @@
                 android:background="@drawable/neo_chart"
                 app:layout_constraintTop_toBottomOf="@id/ctlNeoChart" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:layout_constraintTop_toBottomOf="@id/ivNeoChart">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvFilterNeo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#f8f8f8"
+                    android:paddingStart="38dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="38dp"
+                    android:paddingBottom="45dp"
+                    app:layout_constraintTop_toBottomOf="@id/rcvFilterNeo">
+
+                    <TextView
+                        android:id="@+id/tvBuy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway_medium"
+                        android:text="Buy or Sell for NEO"
+                        android:textColor="#222222"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toStartOf="@id/glVerChart"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:scaleType="fitCenter"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/raggruppa_38"
+                        app:layout_constraintEnd_toStartOf="@id/glVerChart"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvBuy" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/glVerChart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.4" />
+
+                    <TextView
+                        android:layout_marginStart="32dp"
+                        app:layout_constraintStart_toEndOf="@id/glVerChart"
+                        android:id="@+id/tvMkt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway_medium"
+                        android:text="Mkt Capitalization"
+                        android:textColor="#222222"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:scaleType="centerInside"
+                        android:layout_marginStart="50dp"
+                        app:layout_constraintStart_toEndOf="@id/glVerChart"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/raggruppa_60"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvMkt" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
