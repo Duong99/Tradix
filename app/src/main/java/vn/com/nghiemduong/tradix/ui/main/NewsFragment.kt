@@ -1,5 +1,6 @@
 package vn.com.nghiemduong.tradix.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,16 +13,18 @@ import vn.com.nghiemduong.tradix.adapter.NewsAdapter
 import vn.com.nghiemduong.tradix.databinding.FragmentNewsBinding
 import vn.com.nghiemduong.tradix.model.FilterTitle
 import vn.com.nghiemduong.tradix.model.News
+import vn.com.nghiemduong.tradix.ui.MainActivity
 
 class NewsFragment : Fragment() {
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mListFilterNews: MutableList<FilterTitle>
+    private lateinit var mListFilterNews: ArrayList<FilterTitle>
     private lateinit var mFilterNewsAdapter: FilterNewsAdapter
 
     private lateinit var mListNews: MutableList<News>
     private lateinit var mNewsAdapter: NewsAdapter
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,7 @@ class NewsFragment : Fragment() {
     private fun setUpRcvNews() {
         binding.rcvNews.setHasFixedSize(true)
         binding.rcvNews.layoutManager = LinearLayoutManager(context)
-        mNewsAdapter = NewsAdapter(mListNews)
+        mNewsAdapter = NewsAdapter(mListNews, onClickNews)
         binding.rcvNews.adapter = mNewsAdapter
     }
 
@@ -58,7 +61,7 @@ class NewsFragment : Fragment() {
                 News(
                     R.drawable.xiaomi,
                     "HKD -2,13%",
-                    "ATLANTIA",
+                    "XIAOMI",
                     "Illum velit nam voluptatum enim aut ratione ratione officiis totam." +
                             "Mollitia eum sint tempora ducimus",
                     "2 Sept 2020"
@@ -66,7 +69,7 @@ class NewsFragment : Fragment() {
                 News(
                     R.drawable.apple,
                     "AAPL -0,91%",
-                    "ATLANTIA",
+                    "APPLE",
                     "Illum velit nam voluptatum enim aut ratione ratione officiis totam." +
                             "Mollitia eum sint tempora ducimus",
                     "1 Sept 2020"
@@ -83,7 +86,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun addListFilterNews() {
-        mListFilterNews = mutableListOf(
+        mListFilterNews = arrayListOf(
             FilterTitle("EDITORIAL"),
             FilterTitle("CRYPTO NEWS"),
             FilterTitle("RAW MATERIAL"),
@@ -93,5 +96,21 @@ class NewsFragment : Fragment() {
             FilterTitle("RAW MATERIAL"),
             FilterTitle("ECONOMICS")
         )
+    }
+
+    private val onClickNews: (News) -> Unit = {
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("LIST_RCV", mListFilterNews)
+        bundle.putSerializable("NEWS", it)
+        mainActivity.replaceFragmentMainSetArguments(
+            NewsArticleFragment(),
+            bundle,
+            "NewsArticleFragment"
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
     }
 }

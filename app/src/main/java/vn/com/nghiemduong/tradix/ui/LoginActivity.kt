@@ -22,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+
+
         setContentView(binding.root)
 
         binding.tvSignUp.setOnClickListener {
@@ -75,4 +77,6 @@ class LoginActivity : AppCompatActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+    
+
 }

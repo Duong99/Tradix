@@ -14,6 +14,7 @@ class FilterNewsAdapter(var mListFilterNews: MutableList<FilterTitle>) :
     RecyclerView.Adapter<FilterNewsAdapter.ViewHolder>() {
 
     private lateinit var mContext: Context
+    private var mFilterNews: FilterTitle? = null
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRcvFilterTradixBinding.bind(view)
@@ -38,10 +39,19 @@ class FilterNewsAdapter(var mListFilterNews: MutableList<FilterTitle>) :
             holder.onBind(filterNews)
 
             holder.binding.tvTitleFilter.setOnClickListener {
-                holder.binding.tvTitleFilter.background = mContext.resources.getDrawable(
-                    R.drawable.bg_blue,
-                    mContext.resources.newTheme()
-                )
+                this.mFilterNews = filterNews
+                notifyDataSetChanged()
+            }
+
+            mFilterNews?.let {
+                if (mFilterNews == filterNews) {
+                    holder.binding.tvTitleFilter.background = mContext.resources.getDrawable(
+                        R.drawable.bg_blue,
+                        mContext.resources.newTheme()
+                    )
+                } else {
+                    holder.binding.tvTitleFilter.background = null
+                }
             }
         }
     }

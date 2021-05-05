@@ -14,6 +14,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.R.color.white
 import vn.com.nghiemduong.tradix.databinding.ActivityMainBinding
@@ -48,55 +49,52 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        replaceAddToBackStackFragment(
-            supportFragmentManager,
-            HomeFragment(),
-            binding.frameMain.id,
-            "HomeFragment"
-        )
+        replaceFragmentMain(HomeFragment(), "HomeFragment")
 
         binding.ctlHome.setOnClickListener {
-            setBackgroundAllNavNull()
-            setBackgroundNavSelected(binding.ctlHome, binding.ivHome)
-            replaceAddToBackStackFragment(
-                supportFragmentManager,
-                HomeFragment(),
-                binding.frameMain.id,
-                "HomeFragment"
-            )
+            val index = supportFragmentManager.backStackEntryCount
+            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != "HomeFragment") {
+                setBackgroundAllNavNull()
+                setBackgroundNavSelected(binding.ctlHome, binding.ivHome)
+                replaceFragmentMain(HomeFragment(), "HomeFragment")
+            }
         }
 
         binding.ctlCoin.setOnClickListener {
-            setBackgroundAllNavNull()
-            setBackgroundNavSelected(binding.ctlCoin, binding.ivCoin)
-            replaceAddToBackStackFragment(
-                supportFragmentManager,
-                CoinFragment(),
-                binding.frameMain.id,
-                "CoinFragment"
-            )
+            val index = supportFragmentManager.backStackEntryCount
+            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != "CoinFragment") {
+                setBackgroundAllNavNull()
+                setBackgroundNavSelected(binding.ctlCoin, binding.ivCoin)
+                replaceFragmentMain(CoinFragment(), "CoinFragment")
+            }
         }
 
         binding.ctlNews.setOnClickListener {
-            setBackgroundAllNavNull()
-            setBackgroundNavSelected(binding.ctlNews, binding.ivNews)
-            replaceAddToBackStackFragment(
-                supportFragmentManager,
-                NewsFragment(),
-                binding.frameMain.id,
-                "NewsFragment"
-            )
+            val index = supportFragmentManager.backStackEntryCount
+            when (supportFragmentManager.getBackStackEntryAt(index - 1).name) {
+                "NewsFragment" -> {
+
+                }
+
+                "NewsArticleFragment" -> {
+                    onBackPressed()
+                }
+
+                else -> {
+                    setBackgroundAllNavNull()
+                    setBackgroundNavSelected(binding.ctlNews, binding.ivNews)
+                    replaceFragmentMain(NewsFragment(), "NewsFragment")
+                }
+            }
         }
 
         binding.ctlMenu.setOnClickListener {
-            setBackgroundAllNavNull()
-            setBackgroundNavSelected(binding.ctlMenu, binding.ivMenu)
-            replaceAddToBackStackFragment(
-                supportFragmentManager,
-                MenuFragment(),
-                binding.frameMain.id,
-                "MenuFragment"
-            )
+            val index = supportFragmentManager.backStackEntryCount
+            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != "MenuFragment") {
+                setBackgroundAllNavNull()
+                setBackgroundNavSelected(binding.ctlMenu, binding.ivMenu)
+                replaceFragmentMain(MenuFragment(), "MenuFragment")
+            }
         }
     }
 
@@ -157,8 +155,26 @@ class MainActivity : AppCompatActivity() {
                 "MenuFragment" -> {
                     setBackgroundNavSelected(binding.ctlMenu, binding.ivMenu)
                 }
+
+                else -> {
+
+                }
             }
             super.onBackPressed()
         }
+    }
+
+    fun replaceFragmentMainSetArguments(fragment: Fragment, bundle: Bundle, nameFragment: String) {
+        fragment.arguments = bundle
+        replaceFragmentMain(fragment, nameFragment)
+    }
+
+    private fun replaceFragmentMain(fragment: Fragment, nameFragment: String) {
+        replaceAddToBackStackFragment(
+            supportFragmentManager,
+            fragment,
+            binding.frameMain.id,
+            nameFragment
+        )
     }
 }

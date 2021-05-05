@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/bg_nav_main"
+        android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout

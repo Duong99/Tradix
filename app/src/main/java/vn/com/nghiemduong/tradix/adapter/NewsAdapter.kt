@@ -8,13 +8,16 @@ import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.databinding.ItemRcvNewsBinding
 import vn.com.nghiemduong.tradix.model.News
 
-class NewsAdapter(var mListNews: MutableList<News>) :
+class NewsAdapter(var mListNews: MutableList<News>, val onClickNews: (News) -> Unit) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRcvNewsBinding.bind(view)
 
         fun onBind(new: News) {
             binding.news = new
+
+            binding.ctlNews.setOnClickListener { onClickNews(new) }
         }
     }
 

@@ -16,11 +16,16 @@
             android:layout_height="wrap_content"
             android:paddingBottom="35dp">
 
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/tracciato_869"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctlBar"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"
-                android:background="@drawable/component_6_7"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -32,14 +37,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.SearchView
-                    android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
                     android:layout_marginTop="45dp"
                     android:layout_marginEnd="48dp"
+                    android:background="@drawable/icons_8_search"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -80,9 +84,10 @@
         android:layout_height="49dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="29dp"
-        android:background="#101010"
-        android:src="@drawable/icons_8_alarm"
+        android:backgroundTint="@color/white"
         app:fabCustomSize="49dp"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/icons_8_alarm" />
 </androidx.constraintlayout.widget.ConstraintLayout>

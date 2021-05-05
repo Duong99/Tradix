@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.NewsFragment">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
-                android:background="#f8f8f8"
+                android:paddingBottom="16dp"
+                android:background="@drawable/bg_neo_chart_bottom"
                 app:layout_constraintTop_toBottomOf="@id/tvNews">
 
                 <androidx.recyclerview.widget.RecyclerView

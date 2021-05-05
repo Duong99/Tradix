@@ -12,8 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:paddingBottom="21dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="21dp">
 
         <TextView
             android:layout_width="64dp"
@@ -23,7 +23,7 @@
             android:background="@drawable/bg_blue"
             android:fontFamily="@font/raleway_medium"
             android:gravity="center"
-            android:text="Tools"
+            android:text="@{menu.name, default = `Tools`}"
             android:textColor="#151515"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"

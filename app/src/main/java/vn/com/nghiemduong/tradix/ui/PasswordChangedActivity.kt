@@ -1,5 +1,6 @@
 package vn.com.nghiemduong.tradix.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import vn.com.nghiemduong.tradix.R
@@ -14,5 +15,14 @@ class PasswordChangedActivity : AppCompatActivity() {
         binding = ActivityPasswordChangedBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+
+        binding.tvLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 }

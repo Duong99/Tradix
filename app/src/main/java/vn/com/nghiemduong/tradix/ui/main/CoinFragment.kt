@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.adapter.FilterNeoAdapter
 import vn.com.nghiemduong.tradix.databinding.FragmentCoinBinding
 import vn.com.nghiemduong.tradix.model.FilterTitle

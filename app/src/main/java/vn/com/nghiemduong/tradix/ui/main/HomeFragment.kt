@@ -1,11 +1,16 @@
 package vn.com.nghiemduong.tradix.ui.main
 
+import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import vn.com.nghiemduong.tradix.adapter.FilterTradixAdapter
 import vn.com.nghiemduong.tradix.adapter.TradixAdapter
 import vn.com.nghiemduong.tradix.databinding.FragmentHomeBinding
@@ -20,7 +25,6 @@ class HomeFragment : Fragment() {
     private lateinit var mListfilterTraxdixs: MutableList<FilterTitle>
     private lateinit var mFilterTradixAdapter: FilterTradixAdapter
     private lateinit var mTradixAdapter: TradixAdapter
-    private lateinit var mListTradixs: MutableList<Tradix>
     private var index = 0
 
     override fun onCreateView(
@@ -38,6 +42,41 @@ class HomeFragment : Fragment() {
         binding.tvLoadMoreTradix.setOnClickListener {
             addLoadMoreTradix()
         }
+
+        val mIth = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: ViewHolder,
+                    target: ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                    val dialog = context?.let { AlertDialog.Builder(it) }
+
+                    dialog?.setMessage(
+                        "Do you want delete " +
+                                "${mTradixAdapter.mListTradixs[viewHolder.adapterPosition].title}?"
+                    )
+
+                    dialog?.setTitle("Warring")
+                    dialog?.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
+                        mTradixAdapter.deleteTradix(viewHolder.adapterPosition)
+                    })
+
+                    dialog?.setNegativeButton("No") { _, _ ->
+                        mTradixAdapter.notifyDataSetChanged()
+                    }
+
+                    dialog?.show()
+                }
+            })
+
+        mIth.attachToRecyclerView(binding.rcvTradix)
         return binding.root
     }
 
@@ -45,12 +84,11 @@ class HomeFragment : Fragment() {
         binding.rcvTradix.setHasFixedSize(true)
         binding.rcvTradix.layoutManager =
             LinearLayoutManager(context)
-        mTradixAdapter = TradixAdapter(mListTradixs)
         binding.rcvTradix.adapter = mTradixAdapter
     }
 
     private fun addListTradixs() {
-        mListTradixs = mutableListOf(
+        val mListTradixs: MutableList<Tradix> = mutableListOf(
             Tradix(
                 "DOWN JONES $index", "NYSE", "10:44:45", "20.047,50",
                 "+203 (+1,04%)"
@@ -85,11 +123,15 @@ class HomeFragment : Fragment() {
                 "20.047,50", "+203 (+1,04%)"
             )
         )
+
+        mTradixAdapter = TradixAdapter()
+        mTradixAdapter.mListTradixs = mListTradixs
+        mTradixAdapter.notifyDataSetChanged()
     }
 
     private fun addLoadMoreTradix() {
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "DOWN JONES $index", "NYSE", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -97,7 +139,7 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "FTSE 100 $index", "LONDON", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -105,7 +147,7 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "IBEX 35 $index", "MADRID", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -113,7 +155,7 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "DAX $index", "XETRA", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -121,7 +163,7 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "DOWN JONES $index", "NYSE", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -129,7 +171,7 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "FTSE 100 $index", "LONDON", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -137,7 +179,7 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "IBEX 35 $index", "MADRID", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
@@ -145,14 +187,12 @@ class HomeFragment : Fragment() {
         )
 
         index++
-        mListTradixs.add(
+        mTradixAdapter.addTradix(
             Tradix(
                 "DAX $index", "XETRA", "10:44:45",
                 "20.047,50", "+203 (+1,04%)"
             )
         )
-        mTradixAdapter.mListTradixs = mListTradixs
-        mTradixAdapter.notifyDataSetChanged()
     }
 
 
