@@ -40,33 +40,31 @@ class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTitle>) :
         filterTradix?.let {
             holder.onBind(filterTradix)
 
-            if (filterTradix.isCheck) {
-                holder.binding.tvTitleFilter.background =
-                    mContext.getDrawable(R.drawable.bg_item_filter_tradix_selected)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.binding.tvTitleFilter.setTextColor(
-                        mContext.resources.getColor(
-                            R.color.white, mContext.resources.newTheme()
-                        )
-                    )
-                }
-            } else {
-                holder.binding.tvTitleFilter.background = null
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.binding.tvTitleFilter.setTextColor(
-                        mContext.resources.getColor(
-                            R.color.black_filter, mContext.resources.newTheme()
-                        )
-                    )
-                }
-            }
-
-
             holder.binding.tvTitleFilter.setOnClickListener {
                 filterTradix.isCheck = !filterTradix.isCheck
-                notifyDataSetChanged()
+
+                if (filterTradix.isCheck) {
+                    holder.binding.tvTitleFilter.background =
+                        mContext.getDrawable(R.drawable.bg_item_filter_tradix_selected)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        holder.binding.tvTitleFilter.setTextColor(
+                            mContext.resources.getColor(
+                                R.color.white, mContext.resources.newTheme()
+                            )
+                        )
+                    }
+                } else {
+                    holder.binding.tvTitleFilter.background = null
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        holder.binding.tvTitleFilter.setTextColor(
+                            mContext.resources.getColor(
+                                R.color.black_filter, mContext.resources.newTheme()
+                            )
+                        )
+                    }
+                }
             }
         }
     }

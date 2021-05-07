@@ -6,17 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.com.nghiemduong.tradix.adapter.FilterEditorNewsAdapter
 import vn.com.nghiemduong.tradix.databinding.FragmentNewsArticleBinding
 import vn.com.nghiemduong.tradix.model.FilterTitle
 import vn.com.nghiemduong.tradix.model.News
 import vn.com.nghiemduong.tradix.ui.MainActivity
+import vn.com.nghiemduong.tradix.viewmodel.NewsViewModel
 
 class NewsArticleFragment : Fragment() {
     private var _binding: FragmentNewsArticleBinding? = null
     private val binding get() = _binding!!
-    private lateinit var news: News
+
+    private var news: News? = null
     private lateinit var filterEditorNews: FilterEditorNewsAdapter
     private lateinit var mListFilterEditorNews: ArrayList<FilterTitle>
     private lateinit var mainActivity: MainActivity
@@ -27,6 +30,8 @@ class NewsArticleFragment : Fragment() {
     ): View? {
         _binding = FragmentNewsArticleBinding.inflate(inflater, container, false)
 
+        /*news = mainActivity.newsViewModel.news
+        binding.news = news*/
         getDataNews()
 
         setUpRcvFilterEditorNews()

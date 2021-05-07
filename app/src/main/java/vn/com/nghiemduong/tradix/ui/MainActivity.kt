@@ -10,19 +10,19 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.R.color.white
 import vn.com.nghiemduong.tradix.databinding.ActivityMainBinding
-import vn.com.nghiemduong.tradix.ui.main.CoinFragment
-import vn.com.nghiemduong.tradix.ui.main.HomeFragment
-import vn.com.nghiemduong.tradix.ui.main.MenuFragment
-import vn.com.nghiemduong.tradix.ui.main.NewsFragment
+import vn.com.nghiemduong.tradix.ui.main.*
 import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragment
+import vn.com.nghiemduong.tradix.viewmodel.NewsViewModel
 import kotlin.system.exitProcess
 
 /*
@@ -43,13 +43,19 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var newsViewModel: NewsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        replaceFragmentMain(HomeFragment(), "HomeFragment")
+        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+
+        if (newsViewModel.news == null) {
+            replaceFragmentMain(HomeFragment(), "HomeFragment")
+        }
 
         binding.ctlHome.setOnClickListener {
             val index = supportFragmentManager.backStackEntryCount
@@ -157,7 +163,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-
                 }
             }
             super.onBackPressed()
@@ -169,7 +174,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragmentMain(fragment, nameFragment)
     }
 
-    private fun replaceFragmentMain(fragment: Fragment, nameFragment: String) {
+    fun replaceFragmentMain(fragment: Fragment, nameFragment: String) {
         replaceAddToBackStackFragment(
             supportFragmentManager,
             fragment,

@@ -26,12 +26,13 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="6dp"
                 android:background="@drawable/icons_8_expand_arrow"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/tvMenu" />
 
             <TextView
+                android:id="@+id/tvMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -40,7 +41,6 @@
                 android:text="MENU"
                 android:textColor="#121212"
                 android:textSize="22sp"
-                android:textStyle="normal"
                 app:layout_constraintStart_toEndOf="@id/ivBack"
                 app:layout_constraintTop_toTopOf="parent" />
 

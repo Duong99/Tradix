@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.*
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -16,6 +17,7 @@ import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding2Fragment
 import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding3Fragment
 import vn.com.nghiemduong.tradix.utils.getShipTutorialPref
 import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragment
+import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragmentWithAnimationOnboading
 
 import vn.com.nghiemduong.tradix.utils.updateShipTutorialPref
 import kotlin.system.exitProcess
@@ -38,9 +40,10 @@ class OnboardingActivity : AppCompatActivity() {
 
         addDots()
 
-        replaceAddToBackStackFragment(
+        replaceAddToBackStackFragmentWithAnimationOnboading(
             supportFragmentManager, Onboarding1Fragment(),
-            binding.frameOnboarding.id, "Onboarding1Fragment"
+            binding.frameOnboarding.id, "Onboarding1Fragment",
+            applicationContext, binding.frameOnboarding
         )
 
         binding.ivBackArrow.visibility = GONE
@@ -49,18 +52,20 @@ class OnboardingActivity : AppCompatActivity() {
             when (mPosition) {
                 0 -> {
                     mPosition = 1
-                    replaceAddToBackStackFragment(
+                    replaceAddToBackStackFragmentWithAnimationOnboading(
                         supportFragmentManager, Onboarding2Fragment(),
-                        binding.frameOnboarding.id, "Onboarding2Fragment"
+                        binding.frameOnboarding.id, "Onboarding2Fragment",
+                        applicationContext, binding.frameOnboarding
                     )
                     replaceDots()
                     binding.ivBackArrow.visibility = VISIBLE
                 }
                 1 -> {
                     mPosition = 2
-                    replaceAddToBackStackFragment(
+                    replaceAddToBackStackFragmentWithAnimationOnboading(
                         supportFragmentManager, Onboarding3Fragment(),
-                        binding.frameOnboarding.id, "Onboarding3Fragment"
+                        binding.frameOnboarding.id, "Onboarding3Fragment",
+                        applicationContext, binding.frameOnboarding
                     )
                     binding.tvActionNextStart.text = "START"
                     replaceDots()
@@ -143,6 +148,8 @@ class OnboardingActivity : AppCompatActivity() {
                     replaceDots()
                 }
             }
+            val animation = AnimationUtils.loadAnimation(applicationContext, R.anim.move_fragment_back_onboarding)
+            binding.frameOnboarding.startAnimation(animation)
             super.onBackPressed()
         }
     }

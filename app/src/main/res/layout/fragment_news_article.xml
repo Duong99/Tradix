@@ -34,7 +34,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="50dp"
                     android:background="@drawable/icons_8_expand_arrow"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.adapter.FilterNewsAdapter
@@ -14,6 +15,7 @@ import vn.com.nghiemduong.tradix.databinding.FragmentNewsBinding
 import vn.com.nghiemduong.tradix.model.FilterTitle
 import vn.com.nghiemduong.tradix.model.News
 import vn.com.nghiemduong.tradix.ui.MainActivity
+import vn.com.nghiemduong.tradix.viewmodel.NewsViewModel
 
 class NewsFragment : Fragment() {
     private var _binding: FragmentNewsBinding? = null
@@ -99,14 +101,20 @@ class NewsFragment : Fragment() {
     }
 
     private val onClickNews: (News) -> Unit = {
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("LIST_RCV", mListFilterNews)
-        bundle.putSerializable("NEWS", it)
-        mainActivity.replaceFragmentMainSetArguments(
+        //mainActivity.newsViewModel.news = it
+         val bundle = Bundle()
+         bundle.putParcelableArrayList("LIST_RCV", mListFilterNews)
+         bundle.putSerializable("NEWS", it)
+         mainActivity.replaceFragmentMainSetArguments(
+             NewsArticleFragment(),
+             bundle,
+             "NewsArticleFragment"
+         )
+
+        /*mainActivity.replaceFragmentMain(
             NewsArticleFragment(),
-            bundle,
             "NewsArticleFragment"
-        )
+        )*/
     }
 
     override fun onAttach(context: Context) {
