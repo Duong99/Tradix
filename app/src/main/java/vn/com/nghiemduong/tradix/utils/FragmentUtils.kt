@@ -11,11 +11,12 @@ fun replaceAddToBackStackFragment(
     fragmentManager: FragmentManager,
     fragment: Fragment,
     layoutFrameId: Int,
-    name: String
+    nameFragment: String,
+    nameTag: String
 ) {
-    fragmentManager.beginTransaction()
-        .replace(layoutFrameId, fragment)
-        .addToBackStack(name).commit()
+    fragmentManager.beginTransaction().setReorderingAllowed(true)
+        .replace(layoutFrameId, fragment, nameTag)
+        .addToBackStack(nameFragment).commit()
 }
 
 fun replaceAddToBackStackFragmentWithAnimationOnboading(

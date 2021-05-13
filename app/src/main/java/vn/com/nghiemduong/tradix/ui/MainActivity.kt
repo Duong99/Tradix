@@ -1,29 +1,26 @@
 package vn.com.nghiemduong.tradix.ui
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import vn.com.nghiemduong.tradix.R
-import vn.com.nghiemduong.tradix.R.color.white
 import vn.com.nghiemduong.tradix.databinding.ActivityMainBinding
-import vn.com.nghiemduong.tradix.ui.main.*
-import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragment
-import vn.com.nghiemduong.tradix.viewmodel.NewsViewModel
-import kotlin.system.exitProcess
+import vn.com.nghiemduong.tradix.ui.main.CoinFragment
+import vn.com.nghiemduong.tradix.ui.main.HomeFragment
+import vn.com.nghiemduong.tradix.ui.main.MenuFragment
+import vn.com.nghiemduong.tradix.ui.main.NewsFragment
+import vn.com.nghiemduong.tradix.utils.*
+
 
 /*
  yêu cầu bài tập:
@@ -43,7 +40,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    lateinit var newsViewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,55 +47,54 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-
-        if (newsViewModel.news == null) {
-            replaceFragmentMain(HomeFragment(), "HomeFragment")
-        }
+        replaceFragmentMain(HomeFragment(), NAME_HOME_FRAGMENT, TAG_HOME_FRAGMENT)
 
         binding.ctlHome.setOnClickListener {
             val index = supportFragmentManager.backStackEntryCount
-            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != "HomeFragment") {
+            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != NAME_HOME_FRAGMENT) {
                 setBackgroundAllNavNull()
                 setBackgroundNavSelected(binding.ctlHome, binding.ivHome)
-                replaceFragmentMain(HomeFragment(), "HomeFragment")
+                replaceFragmentMain(HomeFragment(), NAME_HOME_FRAGMENT, TAG_HOME_FRAGMENT)
             }
         }
 
         binding.ctlCoin.setOnClickListener {
             val index = supportFragmentManager.backStackEntryCount
-            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != "CoinFragment") {
+            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != NAME_COIN_FRAGMENT) {
+                removePopBackStackFragment(NAME_COIN_FRAGMENT)
                 setBackgroundAllNavNull()
                 setBackgroundNavSelected(binding.ctlCoin, binding.ivCoin)
-                replaceFragmentMain(CoinFragment(), "CoinFragment")
+                replaceFragmentMain(CoinFragment(), NAME_COIN_FRAGMENT, TAG_COIN_FRAGMENT)
             }
         }
 
         binding.ctlNews.setOnClickListener {
             val index = supportFragmentManager.backStackEntryCount
             when (supportFragmentManager.getBackStackEntryAt(index - 1).name) {
-                "NewsFragment" -> {
+                NAME_NEWS_FRAGMENT -> {
 
                 }
 
-                "NewsArticleFragment" -> {
+                NAME_NEWS_ARTICLE_FRAGMENT -> {
                     onBackPressed()
                 }
 
                 else -> {
+                    removePopBackStackFragment(NAME_NEWS_FRAGMENT)
                     setBackgroundAllNavNull()
                     setBackgroundNavSelected(binding.ctlNews, binding.ivNews)
-                    replaceFragmentMain(NewsFragment(), "NewsFragment")
+                    replaceFragmentMain(NewsFragment(), NAME_NEWS_FRAGMENT, TAG_NEWS_FRAGMENT)
                 }
             }
         }
 
         binding.ctlMenu.setOnClickListener {
             val index = supportFragmentManager.backStackEntryCount
-            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != "MenuFragment") {
+            if (supportFragmentManager.getBackStackEntryAt(index - 1).name != NAME_MENU_FRAGMENT) {
+                removePopBackStackFragment(NAME_MENU_FRAGMENT)
                 setBackgroundAllNavNull()
                 setBackgroundNavSelected(binding.ctlMenu, binding.ivMenu)
-                replaceFragmentMain(MenuFragment(), "MenuFragment")
+                replaceFragmentMain(MenuFragment(), NAME_MENU_FRAGMENT, TAG_MENU_FRAGMENT)
             }
         }
     }
@@ -136,30 +131,39 @@ class MainActivity : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this)
             dialog.setTitle("Close app")
             dialog.setMessage("You are close app???")
-            dialog.setNegativeButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
-                this.finish()
+            dialog.setNegativeButton("Yes", DialogInterface.OnClickListener { _, _ ->
+
+                val homeIntent = Intent(Intent.ACTION_MAIN)
+                homeIntent.addCategory(Intent.CATEGORY_HOME)
+                homeIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(homeIntent)
             })
 
             dialog.setPositiveButton("No") { _, _ -> }
             dialog.show()
+
         } else {
             val nameFragment = supportFragmentManager.getBackStackEntryAt(index - 2).name
             setBackgroundAllNavNull()
             when (nameFragment) {
-                "HomeFragment" -> {
+                NAME_HOME_FRAGMENT -> {
                     setBackgroundNavSelected(binding.ctlHome, binding.ivHome)
                 }
 
-                "CoinFragment" -> {
+                NAME_COIN_FRAGMENT -> {
                     setBackgroundNavSelected(binding.ctlCoin, binding.ivCoin)
                 }
 
-                "NewsFragment" -> {
+                NAME_NEWS_FRAGMENT -> {
                     setBackgroundNavSelected(binding.ctlNews, binding.ivNews)
                 }
 
-                "MenuFragment" -> {
+                NAME_MENU_FRAGMENT -> {
                     setBackgroundNavSelected(binding.ctlMenu, binding.ivMenu)
+                }
+
+                NAME_NEWS_ARTICLE_FRAGMENT -> {
+                    setBackgroundNavSelected(binding.ctlNews, binding.ivNews)
                 }
 
                 else -> {
@@ -169,17 +173,53 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun replaceFragmentMainSetArguments(fragment: Fragment, bundle: Bundle, nameFragment: String) {
+    fun replaceFragmentMainSetArguments(
+        fragment: Fragment,
+        bundle: Bundle,
+        nameFragment: String,
+        tagFragment: String
+    ) {
         fragment.arguments = bundle
-        replaceFragmentMain(fragment, nameFragment)
+        removePopBackStackFragment(nameFragment)
+        replaceFragmentMain(fragment, nameFragment, tagFragment)
     }
 
-    fun replaceFragmentMain(fragment: Fragment, nameFragment: String) {
+    private fun replaceFragmentMain(fragment: Fragment, nameFragment: String, tagFragment: String) {
         replaceAddToBackStackFragment(
             supportFragmentManager,
             fragment,
             binding.frameMain.id,
-            nameFragment
+            nameFragment,
+            tagFragment
         )
+    }
+
+    private fun removePopBackStackFragment(nameFragment: String) {
+      /*  val listNameFragment: MutableList<String> = mutableListOf()
+        val count = supportFragmentManager.backStackEntryCount
+        if (count > 1) {
+            for (i in (count - 1) downTo 1) {
+                if (nameFragment == supportFragmentManager.getBackStackEntryAt(i).name) {
+                    supportFragmentManager.popBackStack(
+                        supportFragmentManager.getBackStackEntryAt(i).name,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
+
+                    break
+                } else {
+                    listNameFragment.add(supportFragmentManager.getBackStackEntryAt(i).name ?: "")
+                }
+            }
+
+            if (listNameFragment.size != 0 && listNameFragment.size != count - 1) {
+                for (j in listNameFragment.size - 1 downTo 0) {
+                    supportFragmentManager.beginTransaction().addToBackStack(listNameFragment[j])
+                }
+            }
+        }*/
+    }
+
+    private fun exitApp() {
+        System.exit(0)
     }
 }

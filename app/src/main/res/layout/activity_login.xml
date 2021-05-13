@@ -135,12 +135,12 @@
                 android:id="@+id/tvForgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/lato_light"
                 android:text="Forgot Password?"
                 android:textColor="#9d9d9d"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@id/tvSignUp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvLogin" />
 
@@ -149,12 +149,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="77dp"
                 android:fontFamily="@font/lato"
                 android:text="Sign Up"
                 android:textColor="#9d9d9d"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tvForgotPassword"
                 app:layout_constraintTop_toBottomOf="@id/tvLogin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

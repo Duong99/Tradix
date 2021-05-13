@@ -17,10 +17,10 @@
             android:paddingBottom="35dp">
 
             <ImageView
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/tracciato_869"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@drawable/tracciato_869"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctlBar"
@@ -79,15 +79,37 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAlarm"
         android:layout_width="49dp"
         android:layout_height="49dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="29dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#101010"
+        android:src="@drawable/icons_8_alarm"
+        app:borderWidth="0dp"
         app:fabCustomSize="49dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/icons_8_alarm" />
+        app:tint="@color/white" />-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvAlarm"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="29dp"
+        app:cardBackgroundColor="#101010"
+        app:cardCornerRadius="24.5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_gravity="center"
+            android:background="@drawable/icons_8_alarm" />
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

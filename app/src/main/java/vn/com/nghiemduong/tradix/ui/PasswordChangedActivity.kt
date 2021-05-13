@@ -16,7 +16,6 @@ class PasswordChangedActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-
         binding.tvLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }

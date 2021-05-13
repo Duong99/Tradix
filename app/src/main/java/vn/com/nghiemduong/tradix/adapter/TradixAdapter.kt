@@ -24,12 +24,12 @@ class TradixAdapter :
 
     fun addTradix(tradix: Tradix) {
         mListTradixs.add(tradix)
-        notifyDataSetChanged()
     }
 
     fun deleteTradix(position: Int) {
         mListTradixs.removeAt(position)
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
+        //notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

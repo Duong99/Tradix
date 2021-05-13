@@ -13,7 +13,6 @@ import vn.com.nghiemduong.tradix.databinding.FragmentNewsArticleBinding
 import vn.com.nghiemduong.tradix.model.FilterTitle
 import vn.com.nghiemduong.tradix.model.News
 import vn.com.nghiemduong.tradix.ui.MainActivity
-import vn.com.nghiemduong.tradix.viewmodel.NewsViewModel
 
 class NewsArticleFragment : Fragment() {
     private var _binding: FragmentNewsArticleBinding? = null

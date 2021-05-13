@@ -1,5 +1,7 @@
 package vn.com.nghiemduong.tradix.ui.main
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,6 +27,20 @@ class CoinFragment : Fragment() {
 
         addListFilterNeo()
         setUpRcvFilterNeo()
+
+        binding.cvAlarm.setOnClickListener {
+            if (binding.cvAlarm.cardBackgroundColor ==
+                ColorStateList.valueOf(Color.parseColor("#FF018786"))
+            ) {
+                binding.cvAlarm.setCardBackgroundColor(
+                    ColorStateList.valueOf(Color.parseColor("#101010"))
+                )
+            } else {
+                binding.cvAlarm.setCardBackgroundColor(
+                    ColorStateList.valueOf(Color.parseColor("#FF018786"))
+                )
+            }
+        }
         return binding.root
     }
 

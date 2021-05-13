@@ -15,11 +15,8 @@ import vn.com.nghiemduong.tradix.databinding.ActivityOnboardingBinding
 import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding1Fragment
 import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding2Fragment
 import vn.com.nghiemduong.tradix.ui.onboarding.Onboarding3Fragment
-import vn.com.nghiemduong.tradix.utils.getShipTutorialPref
-import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragment
-import vn.com.nghiemduong.tradix.utils.replaceAddToBackStackFragmentWithAnimationOnboading
+import vn.com.nghiemduong.tradix.utils.*
 
-import vn.com.nghiemduong.tradix.utils.updateShipTutorialPref
 import kotlin.system.exitProcess
 import android.view.View.GONE as GONE
 
@@ -34,6 +31,8 @@ class OnboardingActivity : AppCompatActivity() {
 
         if (getShipTutorialPref(applicationContext)) {
             startActivity(Intent(this, LoginActivity::class.java))
+        } else if (getCheckLoginPref(applicationContext)) {
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         setContentView(binding.root)
@@ -148,7 +147,10 @@ class OnboardingActivity : AppCompatActivity() {
                     replaceDots()
                 }
             }
-            val animation = AnimationUtils.loadAnimation(applicationContext, R.anim.move_fragment_back_onboarding)
+            val animation = AnimationUtils.loadAnimation(
+                applicationContext,
+                R.anim.move_fragment_back_onboarding
+            )
             binding.frameOnboarding.startAnimation(animation)
             super.onBackPressed()
         }

@@ -15,7 +15,8 @@ import vn.com.nghiemduong.tradix.databinding.FragmentNewsBinding
 import vn.com.nghiemduong.tradix.model.FilterTitle
 import vn.com.nghiemduong.tradix.model.News
 import vn.com.nghiemduong.tradix.ui.MainActivity
-import vn.com.nghiemduong.tradix.viewmodel.NewsViewModel
+import vn.com.nghiemduong.tradix.utils.NAME_NEWS_ARTICLE_FRAGMENT
+import vn.com.nghiemduong.tradix.utils.TAG_NEWS_ARTICLE_FRAGMENT
 
 class NewsFragment : Fragment() {
     private var _binding: FragmentNewsBinding? = null
@@ -102,14 +103,15 @@ class NewsFragment : Fragment() {
 
     private val onClickNews: (News) -> Unit = {
         //mainActivity.newsViewModel.news = it
-         val bundle = Bundle()
-         bundle.putParcelableArrayList("LIST_RCV", mListFilterNews)
-         bundle.putSerializable("NEWS", it)
-         mainActivity.replaceFragmentMainSetArguments(
-             NewsArticleFragment(),
-             bundle,
-             "NewsArticleFragment"
-         )
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("LIST_RCV", mListFilterNews)
+        bundle.putSerializable("NEWS", it)
+        mainActivity.replaceFragmentMainSetArguments(
+            NewsArticleFragment(),
+            bundle,
+            NAME_NEWS_ARTICLE_FRAGMENT,
+            TAG_NEWS_ARTICLE_FRAGMENT
+        )
 
         /*mainActivity.replaceFragmentMain(
             NewsArticleFragment(),

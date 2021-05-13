@@ -3,9 +3,11 @@ package vn.com.nghiemduong.tradix.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.databinding.ItemRcvFilterTradixBinding
@@ -16,7 +18,7 @@ class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTitle>) :
 
     private lateinit var mContext: Context
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRcvFilterTradixBinding.bind(view)
 
         fun onBind(filterTradix: FilterTitle) {
@@ -37,12 +39,12 @@ class FilterTradixAdapter(var mListFilterTradixs: MutableList<FilterTitle>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val filterTradix = mListFilterTradixs[position]
 
+        Log.d("Duong", "onBindViewHolder: $position")
         filterTradix?.let {
             holder.onBind(filterTradix)
 
             holder.binding.tvTitleFilter.setOnClickListener {
                 filterTradix.isCheck = !filterTradix.isCheck
-
                 if (filterTradix.isCheck) {
                     holder.binding.tvTitleFilter.background =
                         mContext.getDrawable(R.drawable.bg_item_filter_tradix_selected)

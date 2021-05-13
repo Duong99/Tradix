@@ -48,6 +48,7 @@ class FilterEditorNewsAdapter(var mListFilterEditorNews: MutableList<FilterTitle
                     holder.binding.tvFilterTitleEditorNews.setTextColor(Color.parseColor("#222222"))
                 } else {
                     holder.binding.tvFilterTitleEditorNews.background = null
+                    holder.binding.tvFilterTitleEditorNews.setTextColor(Color.parseColor("#858585"))
                 }
             }
         }

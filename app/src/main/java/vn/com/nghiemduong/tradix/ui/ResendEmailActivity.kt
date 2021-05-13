@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.widget.Toast
 import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.databinding.ActivityResendEmailBinding
+import vn.com.nghiemduong.tradix.utils.getEmailPref
 import vn.com.nghiemduong.tradix.utils.updatePasswordPref
 
 class ResendEmailActivity : AppCompatActivity() {
@@ -41,9 +42,13 @@ class ResendEmailActivity : AppCompatActivity() {
         }
 
         binding.tvResendEmail.setOnClickListener {
-            binding.tvResendEmail.isEnabled = false
+            if (getEmailPref(applicationContext) == "") {
+                Toast.makeText(this, "Do not have an account", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.tvResendEmail.isEnabled = false
 
-            countDownTimer.start()
+                countDownTimer.start()
+            }
         }
     }
 

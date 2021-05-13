@@ -61,6 +61,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:background="@drawable/ic_bitmap_avatar"
                         android:id="@+id/ivImage"
                         android:layout_width="46dp"
                         android:layout_height="46dp"

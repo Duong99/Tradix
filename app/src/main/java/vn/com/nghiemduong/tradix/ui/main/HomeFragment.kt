@@ -1,16 +1,23 @@
 package vn.com.nghiemduong.tradix.ui.main
 
 import android.content.DialogInterface
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.provider.CalendarContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
+import vn.com.nghiemduong.tradix.R
 import vn.com.nghiemduong.tradix.adapter.FilterTradixAdapter
 import vn.com.nghiemduong.tradix.adapter.TradixAdapter
 import vn.com.nghiemduong.tradix.databinding.FragmentHomeBinding
@@ -25,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var mListfilterTraxdixs: MutableList<FilterTitle>
     private lateinit var mFilterTradixAdapter: FilterTradixAdapter
     private lateinit var mTradixAdapter: TradixAdapter
+    private lateinit var layoutFilterTradix: LayoutManager
     private var index = 0
 
     override fun onCreateView(
@@ -43,16 +51,33 @@ class HomeFragment : Fragment() {
             addLoadMoreTradix()
         }
 
+        binding.cvAlarm.setOnClickListener {
+            if (binding.cvAlarm.cardBackgroundColor ==
+                ColorStateList.valueOf(Color.parseColor("#FF018786"))
+            ) {
+                binding.cvAlarm.setCardBackgroundColor(
+                    ColorStateList.valueOf(Color.parseColor("#101010"))
+                )
+            } else {
+                binding.cvAlarm.setCardBackgroundColor(
+                    ColorStateList.valueOf(Color.parseColor("#FF018786"))
+                )
+            }
+        }
+
         val mIth = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+                ItemTouchHelper.DOWN or ItemTouchHelper.UP,
+                ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
             ) {
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: ViewHolder,
                     target: ViewHolder
                 ): Boolean {
-                    return false
+                    mTradixAdapter.notifyItemMoved(viewHolder.layoutPosition, target.layoutPosition)
+                    Log.d("TAG", "onMove: ${viewHolder.layoutPosition} - ${target.layoutPosition}")
+                    return true
                 }
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
@@ -66,10 +91,13 @@ class HomeFragment : Fragment() {
                     dialog?.setTitle("Warring")
                     dialog?.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
                         mTradixAdapter.deleteTradix(viewHolder.adapterPosition)
+                        binding.rcvTradix.swapAdapter(mTradixAdapter, true)
+                        Toast.makeText(context, "Remove item successfully", Toast.LENGTH_SHORT)
+                            .show()
                     })
 
                     dialog?.setNegativeButton("No") { _, _ ->
-                        mTradixAdapter.notifyDataSetChanged()
+                        mTradixAdapter.notifyItemChanged(viewHolder.adapterPosition)
                     }
 
                     dialog?.show()
@@ -78,6 +106,10 @@ class HomeFragment : Fragment() {
 
         mIth.attachToRecyclerView(binding.rcvTradix)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setUpRecyclerTradix() {
@@ -193,13 +225,32 @@ class HomeFragment : Fragment() {
                 "20.047,50", "+203 (+1,04%)"
             )
         )
+
+        index++
+        mTradixAdapter.addTradix(
+            Tradix(
+                "DOWN JONES $index", "NYSE", "10:44:45",
+                "20.047,50", "+203 (+1,04%)"
+            )
+        )
+
+        index++
+        mTradixAdapter.addTradix(
+            Tradix(
+                "FTSE 100 $index", "LONDON", "10:44:45",
+                "20.047,50", "+203 (+1,04%)"
+            )
+        )
+
+        mTradixAdapter.notifyDataSetChanged()
     }
 
 
     private fun setUpRecyclerFilterTradix() {
         binding.rcvFilterTradix.setHasFixedSize(true)
-        binding.rcvFilterTradix.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        layoutFilterTradix = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.rcvFilterTradix.layoutManager = layoutFilterTradix
         mFilterTradixAdapter = FilterTradixAdapter(mListfilterTraxdixs)
         binding.rcvFilterTradix.adapter = mFilterTradixAdapter
     }
