@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_CANCEL
 import android.view.View
 import android.view.View.*
 import android.view.animation.AnimationUtils
@@ -24,15 +27,17 @@ class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
 
     private var mPosition = 0
+    private var x = 0f
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
 
-        if (getShipTutorialPref(applicationContext)) {
-            startActivity(Intent(this, LoginActivity::class.java))
-        } else if (getCheckLoginPref(applicationContext)) {
+        if (getCheckLoginPref(applicationContext)) {
             startActivity(Intent(this, MainActivity::class.java))
+        } else if (getShipTutorialPref(applicationContext)) {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         setContentView(binding.root)
@@ -48,33 +53,7 @@ class OnboardingActivity : AppCompatActivity() {
         binding.ivBackArrow.visibility = GONE
 
         binding.tvActionNextStart.setOnClickListener {
-            when (mPosition) {
-                0 -> {
-                    mPosition = 1
-                    replaceAddToBackStackFragmentWithAnimationOnboading(
-                        supportFragmentManager, Onboarding2Fragment(),
-                        binding.frameOnboarding.id, "Onboarding2Fragment",
-                        applicationContext, binding.frameOnboarding
-                    )
-                    replaceDots()
-                    binding.ivBackArrow.visibility = VISIBLE
-                }
-                1 -> {
-                    mPosition = 2
-                    replaceAddToBackStackFragmentWithAnimationOnboading(
-                        supportFragmentManager, Onboarding3Fragment(),
-                        binding.frameOnboarding.id, "Onboarding3Fragment",
-                        applicationContext, binding.frameOnboarding
-                    )
-                    binding.tvActionNextStart.text = "START"
-                    replaceDots()
-                    binding.ivBackArrow.visibility = VISIBLE
-                }
-                else -> {
-                    updateShipTutorialPref(applicationContext, true)
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-            }
+            onWipeLeft()
         }
 
         binding.tvSkip.setOnClickListener {
@@ -83,6 +62,63 @@ class OnboardingActivity : AppCompatActivity() {
 
         binding.ivBackArrow.setOnClickListener {
             onBackPressed()
+        }
+
+        binding.frameOnboarding.setOnTouchListener { _, motionEvent ->
+            Log.d(TAG, "onCreate: $motionEvent")
+            val action = motionEvent.action
+            if (action == MotionEvent.ACTION_DOWN) {
+                x = motionEvent.x
+            }
+
+            if (action == MotionEvent.ACTION_UP or MotionEvent.ACTION_CANCEL) {
+                val diff = x - motionEvent.x
+                if (diff > 100f && mPosition < 2) {
+                    onWipeLeft()
+                }
+
+                if (diff < -100f && mPosition > 0) {
+                    onWipeRight()
+                }
+                x = 0f
+            }
+            return@setOnTouchListener true
+        }
+    }
+
+    private fun onWipeRight() {
+        // Quay lại màn hình
+        onBackPressed()
+    }
+
+    private fun onWipeLeft() {
+        // chuyển tiếp màn hình onboaring
+        when (mPosition) {
+            0 -> {
+                mPosition = 1
+                replaceAddToBackStackFragmentWithAnimationOnboading(
+                    supportFragmentManager, Onboarding2Fragment(),
+                    binding.frameOnboarding.id, "Onboarding2Fragment",
+                    applicationContext, binding.frameOnboarding
+                )
+                replaceDots()
+                binding.ivBackArrow.visibility = VISIBLE
+            }
+            1 -> {
+                mPosition = 2
+                replaceAddToBackStackFragmentWithAnimationOnboading(
+                    supportFragmentManager, Onboarding3Fragment(),
+                    binding.frameOnboarding.id, "Onboarding3Fragment",
+                    applicationContext, binding.frameOnboarding
+                )
+                binding.tvActionNextStart.text = "START"
+                replaceDots()
+                binding.ivBackArrow.visibility = VISIBLE
+            }
+            else -> {
+                updateShipTutorialPref(applicationContext, true)
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
         }
     }
 
